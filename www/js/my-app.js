@@ -50,6 +50,10 @@ $$(document).on('page:init', '.page[data-name="registro"]', function (e) {
   $$("#btnFinReg").on("click", fnFinRegistro);
 })
 
+$$(document).on('page:init', '.page[data-name="login"]', function (e) {
+  $$("#btnInicioSesion").on("click", fnIniciarSesion);
+})
+
 $$(document).on('page:init', '.page[data-name="confirmacion"]', function (e) {
 $$("#confNombre").text(nombre)
 $$("#confEmail").text(email)
@@ -96,6 +100,34 @@ $$(document).on('page:init', '.page[data-name="info"]', function (e) {
 /* mis funciones */
 var email, clave, nombre, apellido, latitud, longitud;
 
+function fnIniciarSesion() {
+email = $$("#loginEmail").val();
+clave = $$("#loginClave").val();
+
+if (email!="" && clave!="") {
+  
+ 
+  firebase.auth().signInWithEmailAndPassword(email, clave)
+  .then((userCredential) => {
+    // Signed in
+    var user = userCredential.user;
+
+    console.log("Bienvenid@!!! " + email);
+    mainView.router.navigate('/info/');
+    // ...
+  })
+  .catch((error) => {
+    var errorCode = error.code;
+    var errorMessage = error.message;
+
+    console.error(errorCode);
+        console.error(errorMessage);
+  });
+
+
+}
+}
+
 function fnRegistro() {
 email = $$("#indexEmail").val();
 clave = $$("#indexClave").val();
@@ -114,19 +146,13 @@ if (email!="" && clave!="") {
       .catch((error) => {
         var errorCode = error.code;
         var errorMessage = error.message;
-
         console.error(errorCode);
         console.error(errorMessage);
-
         if (errorCode == "auth/email-already-in-use") {
             console.error("el mail ya esta usado");
         }
-
         // ..
       });
-
-  
-  // mainView.router.navigate("/registro/")
 }
 }
 

@@ -8,16 +8,46 @@
             <span class="ios-only">Back</span>
             </a>
         </div>
-        <div class="title">About Framework7</div>
+        <div class="title">Inicio de sesion</div>
         </div>
     </div>
     <div class="page-content">
-        <div class="block-title">Welcome to Framework7</div>
-        <div class="block block-strong">
-        <p>Framework7 - is a free and open source HTML mobile framework to develop hybrid mobile apps or web apps with iOS or Android (Material) native look and feel. It is also an indispensable prototyping apps tool to show working app prototype as soon as possible in case you need to. Framework7 is created by Vladimir Kharlampidi (iDangero.us).</p>
-        <p>The main approach of the Framework7 is to give you an opportunity to create iOS and Android (Material) apps with HTML, CSS and JavaScript easily and clear. Framework7 is full of freedom. It doesn't limit your imagination or offer ways of any solutions somehow. Framework7 gives you freedom!</p>
-        <p>Framework7 is not compatible with all platforms. It is focused only on iOS and Android (Material) to bring the best experience and simplicity.</p>
-        <p>Framework7 is definitely for you if you decide to build iOS and Android hybrid app (Cordova or PhoneGap) or web app that looks like and feels as great native iOS or Android (Material) apps.</p>
+        <div class="grid grid-cols-1 grid-gap">
+            <div class="list list-strong-ios list-dividers-ios inset-ios">
+                <ul>
+                    <li class="item-content item-input item-input-with-info">
+                      <div class="item-media">
+                        <i class="icon demo-list-icon"></i>
+                      </div>
+                      <div class="item-inner">
+                        <div class="item-title item-label">E-mail</div>
+                        <div class="item-input-wrap">
+                          <input type="email" id="loginEmail" placeholder="Tu e-mail" required validate>
+                          <span class="input-clear-button"></span>
+                          <div class="item-input-info">Validación de e-mail</div>
+                        </div>
+                      </div>
+                    </li>
+
+
+                    <li class="item-content item-input">
+                      <div class="item-media">
+                        <i class="icon demo-list-icon"></i>
+                      </div>
+                      <div class="item-inner">
+                        <div class="item-input-wrap">
+                          <input type="password" id="loginClave" placeholder="Tu clave">
+                          <span class="input-clear-button"></span>
+                        </div>
+                      </div>
+                    </li>
+                </ul>
+            </div>
         </div>
+
+        <div class="grid grid-cols-1 grid-gap">
+            <div><button id="btnInicioSesion" class="button button-fill">Ingresar</button></div>
+        </div>
+
     </div>
 </div>
