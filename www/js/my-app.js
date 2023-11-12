@@ -25,6 +25,12 @@ var app = new Framework7({
 
 var mainView = app.views.create('.view-main');
 
+var db = firebase.firestore();
+var colRoles = db.collection("ROLES");
+var colPersonas = db.collection("PERSONAS");
+var colMensajes = db.collection("MENSAJES");
+
+
 // Handle Cordova Device Ready Event
 $$(document).on('deviceready', function() {
     console.log("Device is ready!");
@@ -44,6 +50,42 @@ $$(document).on('page:init', '.page[data-name="about"]', function (e) {
 
 $$(document).on('page:init', '.page[data-name="index"]', function (e) {
 $$("#btnRegistro").on("click", fnRegistro);
+
+sembrarDatos();
+
+/* pruebo la base de datos 
+
+var db = firebase.firestore();
+var dato = {
+  nombre = "Lucas",
+  mail = "c@c.com",
+  rol = "Dev"
+}
+
+db.collection("personas").add(dato)
+.then(function(docRef){
+console.log("Doc creado con el id: " + docRef.id);
+})
+.catch(function(error){
+  console.log("Error: " + error);
+})
+*/
+
+/* sembrado de datos */
+function sembrarDatos() {
+
+  var dato = { rol: "Desarrollador/a", color: "Verde" }
+  var miId = "DEV";
+  colRoles.doc(miId).set(dato)
+  .then( function(docRef) {
+      console.log("Doc creado con el id: " + docRef.id);
+  })
+  .catch(function(error) {
+      console.log("Error: " + error);
+  })
+}
+
+
 
 
 $$(document).on('page:init', '.page[data-name="registro"]', function (e) {
@@ -112,7 +154,7 @@ if (email!="" && clave!="") {
     // Signed in
     var user = userCredential.user;
 
-    console.log("Bienvenid@!!! " + email);
+    // console.log("Bienvenid@!!! " + email);
     mainView.router.navigate('/info/');
     // ...
   })
