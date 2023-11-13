@@ -15,10 +15,12 @@ var app = new Framework7({
     // Add default routes
     routes: [
         { path: '/login/',            url: 'login.html',    },
+        { path: '/ciudades/',         url: 'ciudades.html',    },
         { path: '/confirmacion/',     url: 'confirmacion.html',    },
         { path: '/index/',            url: 'index.html',    },
         { path: '/info/',             url: 'info.html',    },
         { path: '/registro/',         url: 'registro.html',    },
+        { path: '/rosario/',          url: 'rosario.html',    },
     ]
     // ... other parameters
   });
@@ -29,6 +31,8 @@ var db = firebase.firestore();
 var colRoles = db.collection("ROLES");
 var colPersonas = db.collection("PERSONAS");
 var colMensajes = db.collection("MENSAJES");
+/* var colCiudades = db.collection("CIUDADES"); */
+/* var colGuias = db.collection("GUIAS"); */
 
 
 // Handle Cordova Device Ready Event
@@ -43,35 +47,68 @@ $$(document).on('page:init', function (e) {
 })
 
 // Option 2. Using live 'page:init' event handlers for each page
-$$(document).on('page:init', '.page[data-name="about"]', function (e) {
-
+$$(document).on('page:init', '.page[data-name="ciudades"]', function (e) {
+ /* document.addEventListener('deviceready', function () {
+    // Obtén una referencia a la colección 'Ciudades'
+    const colCiudades = firebase.firestore().collection('Ciudades');
   
+    // Obtén los documentos de la colección 'Ciudades' y despliega su información en la página 'ciudades'
+    colCiudades.get().then((querySnapshot) => {
+      const listaCiudades = document.getElementById('listaCiudades');
+      querySnapshot.forEach((doc) => {
+        const ciudad = doc.data();
+        const li = document.createElement('li');
+        li.textContent = `${ciudad.nombre} - ${ciudad.país}`;
+        listaCiudades.appendChild(li);
+      });
+    }); 
+  });
+  */
 })
+
+$$(document).on('page:init', '.page[data-name="info"]', function (e) {
+  const colCiudades = firebase.firestore().collection('Ciudades');
+
+  colCiudades.get().then((querySnapshot) => {
+    const listaCiudades = document.getElementById('listaCiudades');
+    querySnapshot.forEach((doc) => {
+      const ciudad = doc.data();
+      const nombreCiudad = doc.id; // El ID es el nombre de la ciudad
+
+      if (ciudad) {
+        const li = document.createElement('li');
+        const link = document.createElement('a');
+        link.textContent = nombreCiudad; // Mostrar el nombre de la ciudad como texto del enlace
+        link.href = `/ciudades/${nombreCiudad}/`; // Define el enlace para la página de detalles de la ciudad
+        li.appendChild(link);
+        listaCiudades.appendChild(li);
+
+        // Manejar evento clic para navegar a la página de detalles de la ciudad
+        link.addEventListener('click', (event) => {
+          event.preventDefault();
+          app.views.main.router.navigate(link.href); // Navegar a la página de detalles de la ciudad
+        });
+      } else {
+        console.error("Datos incompletos en un documento:", doc.id);
+      }
+    });
+  }).catch((error) => {
+    console.error("Error al obtener documentos:", error);
+  });
+});
+  
+
 
 $$(document).on('page:init', '.page[data-name="index"]', function (e) {
 $$("#btnRegistro").on("click", fnRegistro);
-
+/*
 sembrarDatos();
 
-/* pruebo la base de datos 
-
-var db = firebase.firestore();
-var dato = {
-  nombre = "Lucas",
-  mail = "c@c.com",
-  rol = "Dev"
-}
-
-db.collection("personas").add(dato)
-.then(function(docRef){
-console.log("Doc creado con el id: " + docRef.id);
-})
-.catch(function(error){
-  console.log("Error: " + error);
-})
+sembrarDatos2();
 */
 
 /* sembrado de datos */
+/*
 function sembrarDatos() {
 
   var dato = { rol: "Desarrollador/a", color: "Verde" }
@@ -84,6 +121,61 @@ function sembrarDatos() {
       console.log("Error: " + error);
   })
 }
+
+
+function sembrarDatos2() {
+
+  var ciudad = { nombre: "Buenos Aires", categoria: "Ciudades increibles" }
+  var miId2 = "Argentina";
+  colCiudades.doc(miId2).set(ciudad)
+  .then( function(docRef) {
+      console.log("Doc creado con el id: " + docRef.id);
+  })
+  .catch(function(error) {
+      console.log("Error: " + error);
+  })
+}
+*/
+const colCiudades = firebase.firestore().collection('Ciudades');
+const batch = firebase.firestore().batch();
+
+const ciudadesAAgregar = [
+  {
+    id: "Buenos Aires", 
+    categoria: "Ciudades increibles"
+  },
+  {
+    id: "Rosario", 
+    categoria: "Ciudades historicas"
+  },
+  {
+    id: "Paris", 
+    categoria: "Arquitectura increible"
+  },
+  {
+    id: "Milan", 
+    categoria: "Capitales de la moda"
+  },
+];
+
+ciudadesAAgregar.forEach(ciudad => {
+  const ciudadRef = colCiudades.doc(ciudad.id); // Establece el ID específico
+  batch.set(ciudadRef, ciudad);
+});
+
+batch.commit()
+  .then(() => {
+    console.log("Todas las ciudades han sido agregadas con éxito");
+  })
+  .catch((error) => {
+    console.error("Error al agregar las ciudades: ", error);
+  });
+
+
+
+
+
+
 
 
 
@@ -203,6 +295,21 @@ function fnFinRegistro() {
   apellido = $$("#regApellido").val();
   
   if (nombre!="" && apellido!="") {
-    mainView.router.navigate("/confirmacion/")
+    datos = { nombre: nombre, apellido: apellido, rol: "Dev" }
+    elID = email;
+    
+    colPersonas.doc(elID).set(datos)
+    .then( function(docRef) {
+      mainView.router.navigate("/confirmacion/")
+  })
+  .catch(function(error) {
+      console.log("Error: " + error);
+  })
+  
+    
   }
 }
+
+
+
+
