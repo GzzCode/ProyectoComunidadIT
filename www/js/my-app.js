@@ -5,7 +5,7 @@ var app = new Framework7({
     // App root element
     root: '#app',
     // App Name
-    name: 'My App',
+    name: 'Wanderlust360',
     // App id
     id: 'com.myapp.test',
     // Enable swipe panel
@@ -20,7 +20,8 @@ var app = new Framework7({
         { path: '/index/',            url: 'index.html',    },
         { path: '/info/',             url: 'info.html',    },
         { path: '/registro/',         url: 'registro.html',    },
-        { path: '/rosario/',          url: 'rosario.html',    },
+        { path: '/ciudades/:nombreCiudad/',          url: 'rosario.html',    },
+        { path: '/ciudades/:nombreCiudad/',          url: 'buenosAires.html',    },
     ]
     // ... other parameters
   });
@@ -87,6 +88,9 @@ $$(document).on('page:init', '.page[data-name="info"]', function (e) {
         link.addEventListener('click', (event) => {
           event.preventDefault();
           app.views.main.router.navigate(link.href); // Navegar a la página de detalles de la ciudad
+          console.log('Navegando a:', link.href); // Agregar para verificar la URL antes de la navegación
+app.views.main.router.navigate(link.href);
+
         });
       } else {
         console.error("Datos incompletos en un documento:", doc.id);
@@ -101,6 +105,11 @@ $$(document).on('page:init', '.page[data-name="info"]', function (e) {
 
 $$(document).on('page:init', '.page[data-name="index"]', function (e) {
 $$("#btnRegistro").on("click", fnRegistro);
+platform = new H.service.Platform({
+  'apikey': '8TJchdgOJVZVjFoOSSip2C03gDYQNTZTUFi8ocD6-L0'
+ });
+
+
 /*
 sembrarDatos();
 
@@ -173,13 +182,6 @@ batch.commit()
 
 
 
-
-
-
-
-
-
-
 $$(document).on('page:init', '.page[data-name="registro"]', function (e) {
   $$("#btnFinReg").on("click", fnFinRegistro);
 })
@@ -230,9 +232,60 @@ $$(document).on('page:init', '.page[data-name="info"]', function (e) {
   
 })
 
+$$(document).on('page:init', '.page[data-name="rosario"]', function (e) {
+  var defaultLayers = platform.createDefaultLayers();
+  // Create the default UI:
+
+ 
+ 	// Instantiate (and display) a map object:
+	map = new H.Map(
+        document.getElementById('mapContainer'),
+    	defaultLayers.vector.normal.map,
+    	{
+      	zoom: 10,
+      	center: { lat: -32.9477131, lng: -60.6353367 }
+        });
+ 
+    	coords = {lat: -32.9477131, lng: -60.6353367};
+    	marker = new H.map.Marker(coords);
+ 
+    	// Add the marker to the map and center the map at the location of the marker:
+    	map.addObject(marker);
+    	map.setCenter(coords);
+      const behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(map));
+      const ui = H.ui.UI.createDefault(map, defaultLayers, `es-ES`);
+  
+})
+
+$$(document).on('page:init', '.page[data-name="buenosAires"]', function (e) {
+  var defaultLayers = platform.createDefaultLayers();
+ 
+ 	// Instantiate (and display) a map object:
+	mapBa = new H.Map(
+        document.getElementById('mapContainer'),
+    	defaultLayers.vector.normal.map,
+    	{
+      	zoom: 10,
+      	center: { lat: -34.6098208, lng: -58.395181 }
+        });
+ 
+    	coords = {lat: -34.6098208, lng: -58.395181};
+    	marker = new H.map.Marker(coords);
+ 
+    	// Add the marker to the map and center the map at the location of the marker:
+    	mapBa.addObject(marker);
+    	mapBa.setCenter(coords);
+      const behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(mapBa));
+      const ui = H.ui.UI.createDefault(map, defaultLayers);
+  
+})
+/* UI */
+// 
+// const ui = H.ui.UI.createDefault(map, defaultLayers);
+
 
 /* mis funciones */
-var email, clave, nombre, apellido, latitud, longitud;
+var email, clave, nombre, apellido, latitud, longitud, map, platform, pos;
 
 function fnIniciarSesion() {
 email = $$("#loginEmail").val();
