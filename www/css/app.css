@@ -809,3 +809,28 @@ code {
   max-width: 320px;
 }
 
+/* Ajusta el estilo para la disposición vertical */
+.toolbar-bottom  {
+  display: flex;
+  justify-content: space-around; /* Distribuye los elementos uniformemente */
+  align-items: center;
+  height: 4rem; /* Ajusta la altura del footer según sea necesario */
+  background-color: white;
+  border-color: grey;
+  border-top: 1px solid;
+  margin: 1rem;
+  width: 100%;
+  margin: 0;
+}
+
+.toolbar-bottom  .link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 25%; /* Ajusta el ancho de cada enlace según sea necesario */
+}
+
+.toolbar-bottom  .icon {
+  margin-bottom: 0.2rem; /* Ajusta el margen entre el icono y la palabra */
+  color: #666;
+}

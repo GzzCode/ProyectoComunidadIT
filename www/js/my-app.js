@@ -14,14 +14,17 @@ var app = new Framework7({
     },
     // Add default routes
     routes: [
-        { path: '/login/',            url: 'login.html',    },
-        { path: '/ciudades/',         url: 'ciudades.html',    },
-        { path: '/confirmacion/',     url: 'confirmacion.html',    },
-        { path: '/index/',            url: 'index.html',    },
-        { path: '/info/',             url: 'info.html',    },
-        { path: '/registro/',         url: 'registro.html',    },
+        { path: '/login/',                           url: 'login.html',    },
+        { path: '/ciudades/',                        url: 'ciudades.html',    },
+        { path: '/confirmacion/',                    url: 'confirmacion.html',    },
+        { path: '/index/',                           url: 'index.html',    },
+        { path: '/info/',                            url: 'info.html',    },
+        { path: '/registro/',                        url: 'registro.html',    },
         { path: '/ciudades/:nombreCiudad/',          url: 'rosario.html',    },
         { path: '/ciudades/:nombreCiudad/',          url: 'buenosAires.html',    },
+        { path: '/favoritos/',                       url: 'favoritos.html',    },
+        { path: '/miPerfil/',                        url: 'miPerfil.html',    },
+        { path: '/misViajes/',                       url: 'misViajes.html',    },
     ]
     // ... other parameters
   });
